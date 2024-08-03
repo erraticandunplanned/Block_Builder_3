@@ -6,6 +6,8 @@ var threadlist = {}
 
 @onready var block_container = $block_container
 
+## CALLED FROM MAIN.GD ONCE THE CHUNK IS PLACED IN THE WORLD
+## CREATES A CUBE OF [CHUNKSIZE] SIZE, AND THEN STARTS A THREAD TO GENERATE EACH BLOCK
 func generate_chunk_from_seed(seed : FastNoiseLite, chunk_loc : Vector3):
 	for i in chunksize.x:
 		for j in chunksize.y:
@@ -16,28 +18,26 @@ func generate_chunk_from_seed(seed : FastNoiseLite, chunk_loc : Vector3):
 				threadlist[global_block_location] = thread
 				thread.start(thread_generate_block.bind(global_block_location,block_location,seed))
 
+## CHECKS THE NOISEMAP, IF IT IS A VALID BLOCK, INSTANTIATE A BLOCK SCENE AND NAME IT
 func thread_generate_block(glob_loc, loc, seed):
 	if seed.get_noise_3d(glob_loc.x,glob_loc.y,glob_loc.z) > 0:
 		call_deferred("cancel_thread", glob_loc)
 	else:
 		var newblock = single_block.instantiate()
-		block_container.add_child(newblock)
-		#block_container.call_deferred("add_child",newblock)
-		newblock.global_position = loc
 		newblock.name = str(glob_loc)
 		call_deferred("thread_finish_block", newblock, glob_loc)
+
+## ADDS BLOCK TO SCENE TREE AND POSITIONS IT
+func thread_finish_block(block, loc):
+	block_container.add_child(block)
+	block.global_position = loc
+	cancel_thread(loc)
 
 func cancel_thread(loc):
 	var thread = threadlist.get(loc)
 	if thread.is_alive():
 		thread.wait_to_finish()
 
-func thread_finish_block(block, loc):
-	block_container.add_child(block)
-	cancel_thread(loc)
-
-func unload_self():
-	pass
-
-#func _exit_tree():
-#	thread.wait_to_finish()
+func _exit_tree():
+	for i in threadlist.values():
+		i.wait_to_finish()

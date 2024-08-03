@@ -62,7 +62,7 @@ func _process(delta):
 				chunk_load_area.remove_at(chunk_load_area.find(location_to_test))
 		if to_be_deleted:
 			## IF THE CHUNK'S LOCATION IS NOT IN THE LOAD_AREA, DELETE IT.
-			chunk_to_test.unload_self()
+			chunk_to_test.queue_free()
 	
 	### LOAD ANY MISSING CHUNKS IN LOAD_AREA
 	if chunk_load_area == []: return
