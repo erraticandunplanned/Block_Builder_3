@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://da2tl3l16ugjt"]
+
+[ext_resource type="Script" path="res://scripts/chunk16.gd" id="1_wi2gf"]
+
+[node name="Chunk16" type="Node3D"]
+script = ExtResource("1_wi2gf")
+
+[node name="block_container" type="Node3D" parent="."]

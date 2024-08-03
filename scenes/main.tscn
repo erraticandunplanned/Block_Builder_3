@@ -1,9 +1,59 @@
-[gd_scene load_steps=2 format=3 uid="uid://d2cqypepvwjky"]
+[gd_scene load_steps=6 format=3 uid="uid://d2cqypepvwjky"]
 
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_7t8o0"]
+[ext_resource type="Script" path="res://scripts/camera_controller.gd" id="2_005yf"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_wkj1o"]
+sky_top_color = Color(0.286275, 0.466667, 0.623529, 1)
+sky_horizon_color = Color(0.647059, 0.654902, 0.670588, 1)
+ground_bottom_color = Color(0.2, 0.168627, 0.133333, 1)
+
+[sub_resource type="Sky" id="Sky_eqilp"]
+sky_material = SubResource("ProceduralSkyMaterial_wkj1o")
+
+[sub_resource type="Environment" id="Environment_b1ri1"]
+background_mode = 2
+sky = SubResource("Sky_eqilp")
 
 [node name="Node3D" type="Node3D"]
 script = ExtResource("1_7t8o0")
 
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.916342, 0.400397, 0, -0.400397, 0.916342, 0, 2.57555, 3.87714)
+[node name="load_center" type="Node3D" parent="."]
+
+[node name="horizontal_rotate" type="Node3D" parent="."]
+
+[node name="vertical_rotate" type="Node3D" parent="horizontal_rotate"]
+
+[node name="Camera3D" type="Camera3D" parent="horizontal_rotate/vertical_rotate"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10)
+script = ExtResource("2_005yf")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_b1ri1")
+
+[node name="chunk_container" type="Node3D" parent="."]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="HUD" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="text" type="Control" parent="CanvasLayer/HUD"]
+anchors_preset = 0
+offset_right = 128.0
+offset_bottom = 128.0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/HUD/text"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "text"
