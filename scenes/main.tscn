@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://d2cqypepvwjky"]
 
-[ext_resource type="Script" path="res://scripts/main.gd" id="1_7t8o0"]
-[ext_resource type="Script" path="res://scripts/camera_controller.gd" id="2_005yf"]
+[ext_resource type="Script" uid="uid://ci2ghuo8ut40j" path="res://scripts/main.gd" id="1_7t8o0"]
+[ext_resource type="Script" uid="uid://dya5p5udmds2" path="res://scripts/camera_controller.gd" id="2_005yf"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_wkj1o"]
 sky_top_color = Color(0.286275, 0.466667, 0.623529, 1)

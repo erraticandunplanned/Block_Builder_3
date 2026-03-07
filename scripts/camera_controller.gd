@@ -31,4 +31,3 @@ func _unhandled_input(event):
 		rot_hor.rotate_y(-event.relative.x * mouse_camera_sensitivity)
 		rot_ver.rotate_x(-event.relative.y * mouse_camera_sensitivity)
 		rot_ver.rotation.x = clamp(rot_ver.rotation.x, -PI/2, PI/2)
-
